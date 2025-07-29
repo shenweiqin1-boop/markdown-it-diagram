@@ -1,147 +1,79 @@
-# markdown-it-diagram
+%% 三级指标逻辑图（并列结构）
+graph TD
+    %% ---------- 一级目标 ----------
+    Y["Y: Repayment Guarantee for Core Enterprises in the Supply Chain"]
 
-[![npm version][npm-version-src]][npm-version-href]
-[![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![bundle][bundle-src]][bundle-href]
-[![JSDocs][jsdocs-src]][jsdocs-href]
-[![License][license-src]][license-href]
+    %% ---------- 二级维度 ----------
+    A1["A1: Core Enterprise Profitability"]
+    A2["A2: Core Enterprise Debt Repayment Ability"]
+    A3["A3: Core Enterprise Credit Status"]
+    A4["A4: Core Enterprise Quality"]
+    C1["C1: Supply Chain Cooperation Quality"]
 
-markdown-it-diagram is a markdown-it plugin for diagram. It supports mermaid, plantuml. It supports contorls like zoom, move.
+    %% ---------- 三级指标 ----------
+    %% A1 下属
+    A11["A11: Earnings per Share"]
+    A12["A12: Return on Equity"]
+    A13["A13: Net Profit Growth Rate"]
+    A14["A14: Pre-interest and Post-tax Profit"]
 
-## Features
-- [x] Support PlantUML、Mermaid、Dot、Ditaa syntax;
-- [x] Support zoom、move、rough、download、copy origin code and soon contorls;
-- [x] Support Shift and mouse wheel to zoom in or out;
-- [x] Support modal preview;
-- [x] Support long press mouse click to drag the chart
+    %% A2 下属
+    A21["A21: Asset–Liability Ratio"]
+    A22["A22: Total Assets"]
+    A23["A23: Cash Ratio"]
+    A24["A24: Quick Ratio"]
+    A25["A25: External Guarantee Situation"]
 
-## UML examples
-Markdown fence identifier：[plantuml](https://plantuml.com/)、[mermaid](https://github.com/mermaid-js/mermaid)、[dot](https://graphviz.gitlab.io/doc/info/lang.html)、[ditaa](https://ditaa.sourceforge.net/)
+    %% A3 下属
+    A31["A31: Credit Status"]
+    A32["A32: Financial Report Audit Opinion"]
 
-### PlantUML
+    %% A4 下属
+    A41["A41: Employee Quality"]
+    A42["A42: Management Level"]
+    A43["A43: Employee Loyalty"]
 
-[online](https://www.plantuml.com/plantuml/uml/)
+    %% C1 下属
+    C11["C11: Concentration of Suppliers"]
+    C12["C12: Supply Chain Concentration"]
+    C13["C13: Degree of Information Sharing within the Supply Chain"]
 
-````markdown
-```plantuml
-Bob -> Alice : hello
-```
-````
-![plantuml](./assets/plantuml.png)
+    %% ---------- 连线关系 ----------
+    %% 一级 → 二级
+    Y --&gt; A1
+    Y --&gt; A2
+    Y --&gt; A3
+    Y --&gt; A4
+    Y --&gt; C1
 
-### DOT
+    %% 二级 → 三级
+    A1 --&gt; A11
+    A1 --&gt; A12
+    A1 --&gt; A13
+    A1 --&gt; A14
 
-````markdown
-```dot
-digraph example1 {
-    1 -> 2 -> { 4, 5 };
-    1 -> 3 -> { 6, 7 };
-}
-```
-````
-![dot](./assets/dot.png)
+    A2 --&gt; A21
+    A2 --&gt; A22
+    A2 --&gt; A23
+    A2 --&gt; A24
+    A2 --&gt; A25
 
-### ditaa
-> [!WARNING]
-> On PlantUML, only PNG,TXT generation is supported.
-````
-```ditaa
-+--------+   +-------+    +-------+
-    |        | --+ ditaa +--> |       |
-    |  Text  |   +-------+    |diagram|
-    |Document|   |!magic!|    |       |
-    |     {d}|   |       |    |       |
-    +---+----+   +-------+    +-------+
-        :                         ^
-        |       Lots of work      |
-        +-------------------------+
-```
-````
-![ditaa](./assets/ditaa.png)
+    A3 --&gt; A31
+    A3 --&gt; A32
 
-### mermaid
+    A4 --&gt; A41
+    A4 --&gt; A42
+    A4 --&gt; A43
 
-````markdown
-```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-```
-````
-![mermaid](./assets/mermaid.png)
+    C1 --&gt; C11
+    C1 --&gt; C12
+    C1 --&gt; C13
 
-## Install
-```bash
-npm install markdown-it-diagram --save
-```
-## Usage
-vite.config.ts
-```ts
-import MarkdownItDiagrams from 'markdown-it-diagram'
-import Markdown from 'unplugin-vue-markdown/vite'
-export default defineConfig({
-  plugins: [
-    Markdown({
-      markdownItSetup(md) {
-        md.use(MarkdownItDiagrams, {
-          showController: true, // show controller,default:false
-          /**
-           * PlantUML options
-           * ditaa:imageFormat 'png| txt'
-           * plantuml: imageFormat'png| svg| txt'
-           * dot: imageFormat'png| svg| txt'
-           */
-          // imageFormat: 'svg', // image format:svg|png|txt,default:svg
-          // server: '', // plantuml server,default:http://www.plantuml.com/plantuml
-          // ditaa: {
-          // imageFormat: 'svg', // image format:png|txt,default:svg
-          // server: '', // plantuml server,default:http://www.plantuml.com/plantuml
-          // }
-        })
-      }
-    })
-  ]
-})
-```
-If you open the controller, you need to import the script in the initialization.
-vue3 example:
-```vue
-<script setup lang="ts">
-import { markdownItDiagramDom } from 'markdown-it-diagram/dom'
-import { onMounted } from 'vue'
-onMounted(async () => {
-  // if you want to use mermaid, you need to install mermaid.js
-  // npm install mermaid
-  // import mermaid from 'mermaid'
-  mermaid.initialize({ startOnLoad: false })
-  await mermaid.run()
-  // initialize markdown-it-diagram/dom script
-  await markdownItDiagramDom()
-})
-</script>
-```
-## References
+    %% ---------- 视觉样式 ----------
+    classDef level1 fill:#1E90FF,stroke:#000,stroke-width:2px,color:#fff
+    classDef level2 fill:#FFD700,stroke:#000,stroke-width:1.5px,color:#000
+    classDef level3 fill:#98FB98,stroke:#000,stroke-width:1px,color:#000
 
-- [markdown-it-textual-uml](https://github.com/manastalukdar/markdown-it-textual-uml)
-- [markdown-it](https://github.com/markdown-it/markdown-it)
-- [panzoom](https://github.com/timmywil/panzoom)
-- [svg2roughjs](https://github.com/fskpf/svg2roughjs)
-
-## License
-
-[MIT](./LICENSE) License © 2023-PRESENT [Ryanuo](https://github.com/ryanuo)
-
-<!-- Badges -->
-
-[npm-version-src]: https://img.shields.io/npm/v/markdown-it-diagram?style=flat&colorA=080f12&colorB=1fa669
-[npm-version-href]: https://npmjs.com/package/markdown-it-diagram
-[npm-downloads-src]: https://img.shields.io/npm/dm/markdown-it-diagram?style=flat&colorA=080f12&colorB=1fa669
-[npm-downloads-href]: https://npmjs.com/package/markdown-it-diagram
-[bundle-src]: https://img.shields.io/bundlephobia/minzip/markdown-it-diagram?style=flat&colorA=080f12&colorB=1fa669&label=minzip
-[bundle-href]: https://bundlephobia.com/result?p=markdown-it-diagram
-[license-src]: https://img.shields.io/github/license/ryanuo/markdown-it-diagram.svg?style=flat&colorA=080f12&colorB=1fa669
-[license-href]: https://github.com/ryanuo/markdown-it-diagram/blob/main/LICENSE
-[jsdocs-src]: https://img.shields.io/badge/jsdocs-reference-080f12?style=flat&colorA=080f12&colorB=1fa669
-[jsdocs-href]: https://www.jsdocs.io/package/markdown-it-diagram
+    class Y level1
+    class A1,A2,A3,A4,C1 level2
+    class A11,A12,A13,A14,A21,A22,A23,A24,A25,A31,A32,A41,A42,A43,C11,C12,C13 level3
